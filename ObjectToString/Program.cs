@@ -1,5 +1,5 @@
-﻿//Person person = new Person() { Name = "ala", Id = 1, Address = new Adderss() { City = new City() { Id = 2, Name= "Wroclaw"}, State = "State" }, LastName = "Kowalska"};
-Person person = new Person() { Name = "ala", Id = 1, Address = new Adderss() { City = "Wroclaw", State = "State" }, LastName = "Kowalska"};
+﻿Person person = new Person() { Name = "ala", Id = 1, Address = new Addrss() { City = new City() { Id = 2, Name= "Wroclaw"}, State = new State(){ Id = 3, Name = "Dolnosloskie" } }, LastName = "Kowalska"};
+//Person person = new Person() { Name = "ala", Id = 1, Address = new Addrss() { City = "Wroclaw", State = "State" }, LastName = "Kowalska"};
 //Person person = new Person() { Name = "ala", Id = 1, Address = "Adress" };
 string s = ObjectToString.ObjToStr(person, "=;");
 Console.WriteLine(s);
@@ -10,16 +10,21 @@ public class Person
 {
     public int Id {  get; set; }
     public string Name {  get; set; }
-    public Adderss Address {  get; set; }
+    public Addrss Address {  get; set; }
     public string LastName {  get; set; }
 }
-public class Adderss
+public class Addrss
 {
-    public string City {  get; set; }
-    public string State {  get; set; }
+    public City City {  get; set; }
+    public State State {  get; set; }
 }
 
 public class City
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+public class State
 {
     public int Id { get; set; }
     public string Name { get; set; }
