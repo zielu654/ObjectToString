@@ -1,31 +1,44 @@
-﻿Person person = new Person() { Name = "ala", Id = 1, Address = new Addrss() { City = new City() { Id = 2, Name= "Wroclaw"}, State = new State(){ Id = 3, Name = "Dolnosloskie" } }, LastName = "Kowalska"};
-//Person person = new Person() { Name = "ala", Id = 1, Address = new Addrss() { City = "Wroclaw", State = "State" }, LastName = "Kowalska"};
-//Person person = new Person() { Name = "ala", Id = 1, Address = "Adress" };
-string s = ObjectToString.ObjToStr(person, "=;");
+﻿using System;
+Order order = new Order()
+{
+    orderID = 1,
+    address = new Address()
+    {
+        city = "Wroclaw",
+        postalCode = 1214,
+        street = "Harcerska"
+    },
+    person = new Person()
+    {
+        name = "Michal",
+        lastName = "Zielinski",
+        address = new Address()
+        {
+            city = "Wroclaw",
+            postalCode = 1214,
+            street = "Harcerska"
+        }
+    }
+};
+string s = ObjectToString.ObjToStr(order);
 Console.WriteLine(s);
-Person p2 = ObjectToString.StrToObj<Person>(s, "=;");
-Console.WriteLine(p2.Name);
-
+Order o = ObjectToString.StrToObj<Order>(s);
+Console.WriteLine();
+public class Order
+{
+    public int orderID {  get; set; }
+    public Person person {  get; set; }
+    public Address address {  get; set; }
+}
 public class Person
 {
-    public int Id {  get; set; }
-    public string Name {  get; set; }
-    public Addrss Address {  get; set; }
-    public string LastName {  get; set; }
+    public string name {  get; set; }
+    public string lastName {  get; set; }
+    public Address address {  get; set; }
 }
-public class Addrss
+public class Address
 {
-    public City City {  get; set; }
-    public State State {  get; set; }
-}
-
-public class City
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-}
-public class State
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
+    public string street { get; set; }
+    public string city {  get; set; }
+    public int postalCode {  get; set; }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 public static class ObjectToString
 {
