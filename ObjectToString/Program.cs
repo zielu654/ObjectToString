@@ -20,6 +20,7 @@ Order order = new Order()
         }
     }
 };
+string a = "michal";
 string s = ObjectToString.ObjToStr(order);
 Console.WriteLine(s);
 Order o = ObjectToString.StrToObj<Order>(s);

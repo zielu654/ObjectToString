@@ -24,7 +24,7 @@ public static class ObjectToString
 
         Type T = obj.GetType();
         var properties = T.GetProperties();
-
+        if (!T.IsClass || T.IsPrimitive || T == typeof(string)) throw new Exception("It isn't a class");
         List<string> strings = new List<string>();
         foreach (var item in properties)
         {
@@ -65,7 +65,10 @@ public static class ObjectToString
             separator4 = separator[3];
         }
 
-        T result = (T)Activator.CreateInstance(typeof(T));
+        T result = (T)Activator.CreateInstance(typeof(T)); 
+        if (!result.GetType().IsClass || result.GetType().IsPrimitive || result.GetType() == typeof(string)) throw new Exception("It isn't a class");
+
+
         var gStrings = Split(str, separator3, separator4);
         var strings = gStrings[0].Split(separator2.ToString(), StringSplitOptions.RemoveEmptyEntries);
         foreach (var item in strings)
