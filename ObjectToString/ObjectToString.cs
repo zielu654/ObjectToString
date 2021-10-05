@@ -4,7 +4,7 @@ using System.Reflection;
 public static class ObjectToString
 {
     /// <summary>
-    /// change object to string by key(separator)
+    /// change object(class) to string by key(separator)
     /// </summary>
     /// <param name="obj">object to change</param>
     /// <param name="separator">string of 4 characters (key) represents separators(default ":|{}")</param>
@@ -48,7 +48,7 @@ public static class ObjectToString
         return result;
     }
     /// <summary>
-    /// change string to object by key(separator)
+    /// change string to object(class) by key(separator)
     /// </summary>
     /// <typeparam name="T">Type of result object</typeparam>
     /// <param name="str">String to change</param>
