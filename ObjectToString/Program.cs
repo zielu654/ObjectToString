@@ -20,11 +20,11 @@ Order order = new Order()
         }
     }
 };
-string a = "michal";
+//Order order = new Order() { address = "a", orderID = 1, person = "MichalZ" };
 string s = ObjectToString.ObjToStr(order);
 Console.WriteLine(s);
 Order o = ObjectToString.StrToObj<Order>(s);
-Console.WriteLine();
+Console.WriteLine(o);
 public class Order
 {
     public int orderID {  get; set; }

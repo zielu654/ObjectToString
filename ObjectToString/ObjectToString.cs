@@ -4,11 +4,11 @@ using System.Reflection;
 public static class ObjectToString
 {
     /// <summary>
-    /// change object(class) to string by key(separator)
+    /// Change object(class) to string by key(separator)
     /// </summary>
-    /// <param name="obj">object to change</param>
-    /// <param name="separator">string of 4 characters (key) represents separators(default ":|{}")</param>
-    /// <returns></returns>
+    /// <param name="obj">Object to change</param>
+    /// <param name="separator">String of 4 characters (key) represents separators(default ":|{}")</param>
+    /// <returns>String to change</returns>
     public static string ObjToStr(Object obj, string? separator = null)
     {
         char separator1 = ':', separator2 = '|', separator3 = '{', separator4 = '}';
@@ -19,7 +19,6 @@ public static class ObjectToString
             separator2 = separator[1];
             separator3 = separator[2];
             separator4 = separator[3];
-
         }
 
         Type T = obj.GetType();
@@ -32,28 +31,23 @@ public static class ObjectToString
             var propValue = item.GetValue(obj);
             var propName = item.Name;
             if (propType == typeof(string) || propType.IsPrimitive)
-            {
                 result += $"{propName}{separator1}{propValue}{separator2}";
-            }
             else
-            {
                 strings.Add($"{item.Name}" + ObjToStr(item.GetValue(obj), separator));
-            }
         }
         result = separator3 + result + separator4;
         foreach (var item in strings)
-        {
             result += separator3 + item + separator4;
-        }
+
         return result;
     }
     /// <summary>
-    /// change string to object(class) by key(separator)
+    /// Change string to object(class) by key(separator)
     /// </summary>
     /// <typeparam name="T">Type of result object</typeparam>
     /// <param name="str">String to change</param>
-    /// <param name="separator">string of 4 characters (key) represents separators(default ":|{}")</param>
-    /// <returns></returns>
+    /// <param name="separator">String of 4 characters (key) represents separators(default ":|{}")</param>
+    /// <returns>Object of T type</returns>
     public static T StrToObj<T>(string str, string? separator = null)
     {
         char separator1 = ':', separator2 = '|', separator3 = '{', separator4 = '}';
@@ -65,9 +59,9 @@ public static class ObjectToString
             separator4 = separator[3];
         }
 
-        T result = (T)Activator.CreateInstance(typeof(T)); 
-        if (!result.GetType().IsClass || result.GetType().IsPrimitive || result.GetType() == typeof(string)) throw new Exception("It isn't a class");
-
+        T result = (T)Activator.CreateInstance(typeof(T));
+        if (!result.GetType().IsClass || result.GetType().IsPrimitive || result.GetType() == typeof(string))
+            throw new Exception("It isn't a class");
 
         var gStrings = Split(str, separator3, separator4);
         var strings = gStrings[0].Split(separator2.ToString(), StringSplitOptions.RemoveEmptyEntries);
@@ -81,27 +75,21 @@ public static class ObjectToString
             if (propToUpdate != null)
                 propToUpdate.SetValue(result, Convert.ChangeType(value, type));
         }
-        if (gStrings.Length > 1)
+        for (int i = 1; i < gStrings.Length && gStrings.Length > 1; i++)
         {
-            for (int i = 1; i < gStrings.Length; i++)
-            {
-                string help = gStrings[i], help2 = "";
-                string name = gStrings[i].Split(separator3, StringSplitOptions.RemoveEmptyEntries)[0];
-                for (int j = name.Length; j < help.Length; j++)
-                {
-                    help2 += help[j];
-                }
-                Type objType = typeof(T);
+            string name = gStrings[i].Split(separator3, StringSplitOptions.RemoveEmptyEntries)[0];
+            string help = gStrings[i][name.Length..];
+            Type objType = typeof(T);
 
-                MethodInfo method = typeof(ObjectToString).GetMethod("StrToObj");
-                var ty = result.GetType().GetProperties().Where(p => p.Name == name).FirstOrDefault().PropertyType;
-                MethodInfo genericMethod = method.MakeGenericMethod(ty);
-                var res = genericMethod.Invoke(help2, new object[] { help2, separator });
-                var propertyToUpdate = objType.GetProperty(name);
-                if (propertyToUpdate != null)
-                    propertyToUpdate.SetValue(result, res);
-            }
+            MethodInfo method = typeof(ObjectToString).GetMethod("StrToObj");
+            var ty = result.GetType().GetProperties().Where(p => p.Name == name).FirstOrDefault().PropertyType;
+            MethodInfo genericMethod = method.MakeGenericMethod(ty);
+            var res = genericMethod.Invoke(help, new object[] { help, separator });
+            var propertyToUpdate = objType.GetProperty(name);
+            if (propertyToUpdate != null)
+                propertyToUpdate.SetValue(result, res);
         }
+
         return result;
     }
 
